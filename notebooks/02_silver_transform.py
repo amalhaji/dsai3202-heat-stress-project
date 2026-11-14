@@ -23,6 +23,10 @@ from pyspark.sql.window import Window
 
 COLS = ["valid_time", "latitude", "longitude", "t2m", "d2m", "u10", "v10", "sp", "ssrd", "tcc"]
 TIME_NAMES = ["valid_time", "time", "date"]
+# Copernicus may use short (t2m) or long (2m_temperature) column names - accept both
+ALIASES = {"2m_temperature": "t2m", "2m_dewpoint_temperature": "d2m", "10m_u_component_of_wind": "u10",
+           "10m_v_component_of_wind": "v10", "surface_pressure": "sp", "surface_solar_radiation_downwards": "ssrd",
+           "total_cloud_cover": "tcc"}
 
 def flatten_zip_to_csv(local_zip, lat, lon):
     """CDS may return one CSV or several (e.g. one per variable) inside the zip - merge them on time."""
@@ -36,7 +40,8 @@ def flatten_zip_to_csv(local_zip, lat, lon):
     merged = None
     for df in frames:
         tcol = next(c for c in TIME_NAMES if c in df.columns)
-        df = df.rename(columns={tcol: "valid_time"}).drop(columns=[c for c in ("latitude", "longitude") if c in df.columns])
+        df = df.rename(columns={tcol: "valid_time", **ALIASES})
+        df = df.drop(columns=[c for c in ("latitude", "longitude") if c in df.columns])
         merged = df if merged is None else merged.merge(df, on="valid_time", how="outer")
     merged["latitude"], merged["longitude"] = str(lat), str(lon)
     missing = [c for c in COLS if c not in merged.columns]

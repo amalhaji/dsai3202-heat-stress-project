@@ -39,9 +39,9 @@ LOCAL_TMP = "/local_disk0/tmp/heat_ingest"
 os.makedirs(LOCAL_TMP, exist_ok=True)
 
 points = hf.grid_points(CFG["grid"])
-downloaded, skipped, rehashed, receipts = 0, 0, 0, []
 
-for lat, lon in points:
+def ingest_point(lat, lon):
+    """Download one grid point if it is not already in this source_version. Returns (action, receipt)."""
     pid = hf.point_id(lat, lon)
     folder = f"{RAW_VERSION_PATH}/{pid}"
     data_path, receipt_path = f"{folder}/data.zip", f"{folder}/_receipt.json"
@@ -51,23 +51,38 @@ for lat, lon in points:
 
     if remote_exists(data_path):
         if remote_exists(receipt_path):
-            skipped += 1
-            receipts.append(json.loads(dbutils.fs.head(receipt_path, 100000)))
-            continue
+            return "skipped", json.loads(dbutils.fs.head(receipt_path, 100000))
         dbutils.fs.cp(data_path, f"file:{local}")      # receipt missing (interrupted run): hash, don't re-download
-        rehashed += 1
+        action = "rehashed"
     else:
         client.retrieve(CFG["dataset"], request).download(local)
         dbutils.fs.cp(f"file:{local}", data_path)       # target did not exist -> nothing overwritten
-        downloaded += 1
+        action = "downloaded"
 
     receipt = {"point_id": pid, "latitude": lat, "longitude": lon,
                "source": f"Copernicus CDS / {CFG['dataset']}", "request": request, "file": data_path,
                "bytes": os.path.getsize(local), "sha256": sha256_file(local),
                "retrieved_at_utc": dt.datetime.utcnow().isoformat(timespec="seconds"), "ingest_run_id": RUN_ID}
     dbutils.fs.put(receipt_path, json.dumps(receipt, indent=2), overwrite=False)
-    receipts.append(receipt)
     os.remove(local)
+    print(action, pid, receipt["bytes"], "bytes", flush=True)
+    return action, receipt
+
+# All points are submitted at the same time, so they wait in the Copernicus queue together
+# instead of one after another (the queue, not computing, is what takes time).
+from concurrent.futures import ThreadPoolExecutor, as_completed
+counts, receipts, errors = {"downloaded": 0, "skipped": 0, "rehashed": 0}, [], []
+with ThreadPoolExecutor(max_workers=len(points)) as pool:
+    futures = {pool.submit(ingest_point, lat, lon): (lat, lon) for lat, lon in points}
+    for fut in as_completed(futures):
+        try:
+            action, receipt = fut.result()
+            counts[action] += 1
+            receipts.append(receipt)
+        except Exception as e:
+            errors.append({"point": futures[fut], "error": str(e)[:300]})
+            print("FAILED", futures[fut], str(e)[:300], flush=True)
+downloaded, skipped, rehashed = counts["downloaded"], counts["skipped"], counts["rehashed"]
 
 # COMMAND ----------
 
@@ -82,6 +97,7 @@ dbutils.fs.put(f"{RAW_VERSION_PATH}/_manifest.json", json.dumps(manifest, indent
 status = "SUCCESS" if len(receipts) == len(points) else "INCOMPLETE"
 log_run("01_ingest", status, {"points_expected": len(points), "files_in_version": len(receipts),
         "downloaded_this_run": downloaded, "skipped_already_present": skipped,
-        "rehashed_missing_receipt": rehashed, "total_bytes_compressed": manifest["total_bytes_compressed"]})
+        "rehashed_missing_receipt": rehashed, "failed_points": errors,
+        "total_bytes_compressed": manifest["total_bytes_compressed"]})
 if status != "SUCCESS":
     raise RuntimeError("Not all points ingested - rerun; existing files are skipped.")
