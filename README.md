@@ -238,10 +238,10 @@ No feature selection in v1 (features chosen for physical reasons). **Sample for 
 - Storage: 443 MB of raw zips → 1.18 GB silver Delta → 60.5 MB gold Delta (logged by `04_publish_gold`); features are
   16,781 rows, so Phase 2 modelling is cheap.
 - Cost estimate (from list prices, not from the billing page): the job ran on the existing course cluster
-  (1 driver + 2 workers). Pipeline compute: run 1 ≈ 13.5 min, run 2 ≈ 7 min, run 3 ≈ 1 min, plus ≈ 45 min of
+  (1 driver + 2 workers, all Standard_D4s_v3). Pipeline compute: run 1 ≈ 13.5 min, run 2 ≈ 7 min, run 3 ≈ 1 min, plus ≈ 45 min of
   development runs – about **1.1 hours of pipeline time**; the cluster was switched on for ≈ 4 hours in total that day
-  (setup, debugging, EDA). Assuming ≈ $0.70 per node-hour (Standard_DS3_v2-class VM ≈ $0.30/h + 0.75 DBU × ≈ $0.55
-  all-purpose DBU), 3 nodes ≈ **$2.1 per hour** → pipeline runs ≈ **$2.3**, whole day ≈ **$8.5**. A rerun now costs
+  (setup, debugging, EDA). Assuming ≈ $0.65 per node-hour (D4s_v3 VM ≈ $0.25/h + 0.75 DBU × ≈ $0.55
+  all-purpose DBU), 3 nodes ≈ **$2.0 per hour** → pipeline runs ≈ **$2.2**, whole day ≈ **$8**. A rerun now costs
   ≈ $0.25 (≈ 7 min). The biggest saving available is turning the cluster off when idle (auto-termination) and, in
   Phase 2, using a single-node job cluster, since the feature table is only 16,781 rows.
 

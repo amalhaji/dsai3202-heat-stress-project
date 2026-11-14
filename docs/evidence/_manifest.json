@@ -1,0 +1,1108 @@
+{
+  "source_version": "v1",
+  "dataset": "reanalysis-era5-single-levels-timeseries",
+  "licence": "CC-BY 4.0 (Copernicus Climate Change Service)",
+  "date_range": [
+    "1980-01-01",
+    "2025-12-31"
+  ],
+  "variables": [
+    "2m_temperature",
+    "2m_dewpoint_temperature",
+    "10m_u_component_of_wind",
+    "10m_v_component_of_wind",
+    "surface_pressure",
+    "surface_solar_radiation_downwards",
+    "total_cloud_cover"
+  ],
+  "raw_table": "dsai3202_databricks.s_60100554.heat_raw_era5_files",
+  "n_files": 35,
+  "total_bytes_compressed": 442828468,
+  "files": [
+    {
+      "point_id": "lat24.50_lon50.75",
+      "latitude": 24.5,
+      "longitude": 50.75,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 24.5,
+          "longitude": 50.75
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat24.50_lon50.75)",
+      "file_name": "data.zip",
+      "bytes": 12789896,
+      "sha256": "67f895cabf77240a1dceeb4c9364248bc1f77f847577f3f239653d2895b06688",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat24.50_lon51.00",
+      "latitude": 24.5,
+      "longitude": 51.0,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 24.5,
+          "longitude": 51.0
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat24.50_lon51.00)",
+      "file_name": "data.zip",
+      "bytes": 12671667,
+      "sha256": "43bd2a2d2d8e4ffd762c36e61fb9a9b33744fc2f4551b10b3c0ef8e1b15b8a9f",
+      "retrieved_at_utc": "2026-11-14T14:45:04",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat24.50_lon51.25",
+      "latitude": 24.5,
+      "longitude": 51.25,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 24.5,
+          "longitude": 51.25
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat24.50_lon51.25)",
+      "file_name": "data.zip",
+      "bytes": 12770474,
+      "sha256": "1975f234c60d6bb3d29c0a79f58990bfc482530b229b08f177662add60cdd9ef",
+      "retrieved_at_utc": "2026-11-14T14:45:04",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat24.50_lon51.50",
+      "latitude": 24.5,
+      "longitude": 51.5,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 24.5,
+          "longitude": 51.5
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat24.50_lon51.50)",
+      "file_name": "data.zip",
+      "bytes": 12654776,
+      "sha256": "607be80987e4e5d05a4cb73b116b9b17b53c1fdb12c1d74cece0e322f0bae9fb",
+      "retrieved_at_utc": "2026-11-14T14:45:03",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat24.50_lon51.75",
+      "latitude": 24.5,
+      "longitude": 51.75,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 24.5,
+          "longitude": 51.75
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat24.50_lon51.75)",
+      "file_name": "data.zip",
+      "bytes": 12576968,
+      "sha256": "d938c81d7840fff93812955913c1f620fc2888b3b7688842fe5ee51e33620126",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat24.75_lon50.75",
+      "latitude": 24.75,
+      "longitude": 50.75,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 24.75,
+          "longitude": 50.75
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat24.75_lon50.75)",
+      "file_name": "data.zip",
+      "bytes": 12777105,
+      "sha256": "0000ced8fa8954d74325a59e611082941b7afebadecc4f9e520b4cd0e9510366",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat24.75_lon51.00",
+      "latitude": 24.75,
+      "longitude": 51.0,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 24.75,
+          "longitude": 51.0
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat24.75_lon51.00)",
+      "file_name": "data.zip",
+      "bytes": 12671292,
+      "sha256": "847c9d632980f8960c57485bd1875762f38f5b3eacfdc91c888cb39e86d135fc",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat24.75_lon51.25",
+      "latitude": 24.75,
+      "longitude": 51.25,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 24.75,
+          "longitude": 51.25
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat24.75_lon51.25)",
+      "file_name": "data.zip",
+      "bytes": 12763068,
+      "sha256": "b77ab5465dbf11f66933888041d064603cb68d8dc8b0090e51eae6ee89c542e9",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat24.75_lon51.50",
+      "latitude": 24.75,
+      "longitude": 51.5,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 24.75,
+          "longitude": 51.5
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat24.75_lon51.50)",
+      "file_name": "data.zip",
+      "bytes": 12670272,
+      "sha256": "de589ed27900fbea0bc60acdb912162baa16b511f272053050e3d5d2e05c042a",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat24.75_lon51.75",
+      "latitude": 24.75,
+      "longitude": 51.75,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 24.75,
+          "longitude": 51.75
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat24.75_lon51.75)",
+      "file_name": "data.zip",
+      "bytes": 12596742,
+      "sha256": "6c8894b455de71ea013773724d68bcb21d23ac5e1f22a63c5b68436dfb201bb3",
+      "retrieved_at_utc": "2026-11-14T14:45:04",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.00_lon50.75",
+      "latitude": 25.0,
+      "longitude": 50.75,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.0,
+          "longitude": 50.75
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.00_lon50.75)",
+      "file_name": "data.zip",
+      "bytes": 12687798,
+      "sha256": "d74bdf570210b8b916d8d7a2254b50880c34eea3b631d62ae02e598eeba7912c",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.00_lon51.00",
+      "latitude": 25.0,
+      "longitude": 51.0,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.0,
+          "longitude": 51.0
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.00_lon51.00)",
+      "file_name": "data.zip",
+      "bytes": 12606437,
+      "sha256": "c7e0b9c51d31c62cad27959bb4c11d48a465061627a3d155b5669c1efc9bc32f",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.00_lon51.25",
+      "latitude": 25.0,
+      "longitude": 51.25,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.0,
+          "longitude": 51.25
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.00_lon51.25)",
+      "file_name": "data.zip",
+      "bytes": 12735767,
+      "sha256": "e8a3bc1b7a7196a68f0e196ba566d299b3ac4fe3decf7939003cadd6262356b7",
+      "retrieved_at_utc": "2026-11-14T14:45:04",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.00_lon51.50",
+      "latitude": 25.0,
+      "longitude": 51.5,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.0,
+          "longitude": 51.5
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.00_lon51.50)",
+      "file_name": "data.zip",
+      "bytes": 12675186,
+      "sha256": "d6ccb8c66599ae1d35f5ef94dc35e277da3c241e53a3255b885a5ae4398307af",
+      "retrieved_at_utc": "2026-11-14T14:45:04",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.00_lon51.75",
+      "latitude": 25.0,
+      "longitude": 51.75,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.0,
+          "longitude": 51.75
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.00_lon51.75)",
+      "file_name": "data.zip",
+      "bytes": 12601909,
+      "sha256": "4fe5a8da760ece58fb906520f851767d2b0551823004843c36338675c621e446",
+      "retrieved_at_utc": "2026-11-14T14:45:03",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.25_lon50.75",
+      "latitude": 25.25,
+      "longitude": 50.75,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.25,
+          "longitude": 50.75
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.25_lon50.75)",
+      "file_name": "data.zip",
+      "bytes": 12639496,
+      "sha256": "b5eded748f55499641f102bfba8e28ee0a811b11b1d4afcdb27c18d3175681b5",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.25_lon51.00",
+      "latitude": 25.25,
+      "longitude": 51.0,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.25,
+          "longitude": 51.0
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.25_lon51.00)",
+      "file_name": "data.zip",
+      "bytes": 12639615,
+      "sha256": "9ecb4de08e0f5f801a77e8b23e65f48855e26f7e7c471a432f5280d89d5e0a73",
+      "retrieved_at_utc": "2026-11-14T14:45:03",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.25_lon51.25",
+      "latitude": 25.25,
+      "longitude": 51.25,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.25,
+          "longitude": 51.25
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.25_lon51.25)",
+      "file_name": "data.zip",
+      "bytes": 12769571,
+      "sha256": "eb42ff7cb130d4d36dcf54e6f6f0dd448cf90cdf6f6aa14238c8644750331034",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.25_lon51.50",
+      "latitude": 25.25,
+      "longitude": 51.5,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.25,
+          "longitude": 51.5
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.25_lon51.50)",
+      "file_name": "data.zip",
+      "bytes": 12714177,
+      "sha256": "27d3b055e2fdcb33ea9c87c67519794d6c0b12f12cf2477295ba5c663c694bd2",
+      "retrieved_at_utc": "2026-11-14T14:45:01",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.25_lon51.75",
+      "latitude": 25.25,
+      "longitude": 51.75,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.25,
+          "longitude": 51.75
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.25_lon51.75)",
+      "file_name": "data.zip",
+      "bytes": 12627323,
+      "sha256": "46c31871e4a8e0d8b3fb8ab4faab365e5c1a696e897ccb0bb3b8a06b9e7bf7a3",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.50_lon50.75",
+      "latitude": 25.5,
+      "longitude": 50.75,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.5,
+          "longitude": 50.75
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.50_lon50.75)",
+      "file_name": "data.zip",
+      "bytes": 12606954,
+      "sha256": "84a2a332d311ea5b5a9f43e1854b8f92811ad7d7fc072bd1073749192649c14e",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.50_lon51.00",
+      "latitude": 25.5,
+      "longitude": 51.0,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.5,
+          "longitude": 51.0
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.50_lon51.00)",
+      "file_name": "data.zip",
+      "bytes": 12623440,
+      "sha256": "da62b52f84b5e2071cb03fb1d95be159b2a4db66c03d918c03e1df3d72d90af7",
+      "retrieved_at_utc": "2026-11-14T14:45:03",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.50_lon51.25",
+      "latitude": 25.5,
+      "longitude": 51.25,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.5,
+          "longitude": 51.25
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.50_lon51.25)",
+      "file_name": "data.zip",
+      "bytes": 12750645,
+      "sha256": "de3e6f139e2d9aa91cb2ff8e59fa1a8d6d358715e77d1f168075a22195909a95",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.50_lon51.50",
+      "latitude": 25.5,
+      "longitude": 51.5,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.5,
+          "longitude": 51.5
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.50_lon51.50)",
+      "file_name": "data.zip",
+      "bytes": 12648337,
+      "sha256": "adcf4ebadf610944507839069ca2f858b7c3d96f06fc38d61b6b21f6585ba936",
+      "retrieved_at_utc": "2026-11-14T14:45:04",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.50_lon51.75",
+      "latitude": 25.5,
+      "longitude": 51.75,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.5,
+          "longitude": 51.75
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.50_lon51.75)",
+      "file_name": "data.zip",
+      "bytes": 12571651,
+      "sha256": "a9d10c0614f94cbac0498b7878e7fdda9bdc6df9e980d03432005cbe0a52081f",
+      "retrieved_at_utc": "2026-11-14T14:45:01",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.75_lon50.75",
+      "latitude": 25.75,
+      "longitude": 50.75,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.75,
+          "longitude": 50.75
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.75_lon50.75)",
+      "file_name": "data.zip",
+      "bytes": 12586613,
+      "sha256": "b9a89ca840ed18a99ebf8c93ebb3e9f5af8643233f5a1f2d1154fe69de22b7d0",
+      "retrieved_at_utc": "2026-11-14T14:45:03",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.75_lon51.00",
+      "latitude": 25.75,
+      "longitude": 51.0,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.75,
+          "longitude": 51.0
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.75_lon51.00)",
+      "file_name": "data.zip",
+      "bytes": 12615816,
+      "sha256": "9385e476088c8d1eb46ff352fb2ea24afa6b7fb0f0f9e8db5c580adb901a0579",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.75_lon51.25",
+      "latitude": 25.75,
+      "longitude": 51.25,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.75,
+          "longitude": 51.25
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.75_lon51.25)",
+      "file_name": "data.zip",
+      "bytes": 12740590,
+      "sha256": "39e283f783a12cca511b3cf609745ab1b314ccebadb538668c7d0ac55160a309",
+      "retrieved_at_utc": "2026-11-14T14:45:04",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.75_lon51.50",
+      "latitude": 25.75,
+      "longitude": 51.5,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.75,
+          "longitude": 51.5
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.75_lon51.50)",
+      "file_name": "data.zip",
+      "bytes": 12647336,
+      "sha256": "e8c2221254408eedca6b0619f2c68271425d5bb59d1e7df628972a0f7e3ddbde",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat25.75_lon51.75",
+      "latitude": 25.75,
+      "longitude": 51.75,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 25.75,
+          "longitude": 51.75
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat25.75_lon51.75)",
+      "file_name": "data.zip",
+      "bytes": 12547594,
+      "sha256": "4a9354328ecb3e75fc0062566e7b4f71adc93cb8c734f9e21e401860377ca57c",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat26.00_lon50.75",
+      "latitude": 26.0,
+      "longitude": 50.75,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 26.0,
+          "longitude": 50.75
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat26.00_lon50.75)",
+      "file_name": "data.zip",
+      "bytes": 12558768,
+      "sha256": "0f593ba13acab95ac5efeb1f3bfd03bbbab30a92a4ed912806daf6ac5826764e",
+      "retrieved_at_utc": "2026-11-14T14:45:04",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat26.00_lon51.00",
+      "latitude": 26.0,
+      "longitude": 51.0,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 26.0,
+          "longitude": 51.0
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat26.00_lon51.00)",
+      "file_name": "data.zip",
+      "bytes": 12450746,
+      "sha256": "24242ec02948a99abe4bed21057c06a6471ab48e1305df54ad64470e54d321b0",
+      "retrieved_at_utc": "2026-11-14T14:45:01",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat26.00_lon51.25",
+      "latitude": 26.0,
+      "longitude": 51.25,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 26.0,
+          "longitude": 51.25
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat26.00_lon51.25)",
+      "file_name": "data.zip",
+      "bytes": 12688795,
+      "sha256": "f772b6e07b3a236c5192253a0e65659b7a42b3fb22b25cccfa8d033daca9ba66",
+      "retrieved_at_utc": "2026-11-14T14:45:02",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat26.00_lon51.50",
+      "latitude": 26.0,
+      "longitude": 51.5,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 26.0,
+          "longitude": 51.5
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat26.00_lon51.50)",
+      "file_name": "data.zip",
+      "bytes": 12618547,
+      "sha256": "4e7bede5fa0e519bdcfc75bea9f78de7b92146a7667a20059f8d73069bf8fab3",
+      "retrieved_at_utc": "2026-11-14T14:45:04",
+      "ingest_run_id": "238429206358541"
+    },
+    {
+      "point_id": "lat26.00_lon51.75",
+      "latitude": 26.0,
+      "longitude": 51.75,
+      "source": "Copernicus CDS / reanalysis-era5-single-levels-timeseries",
+      "request": {
+        "variable": [
+          "2m_temperature",
+          "2m_dewpoint_temperature",
+          "10m_u_component_of_wind",
+          "10m_v_component_of_wind",
+          "surface_pressure",
+          "surface_solar_radiation_downwards",
+          "total_cloud_cover"
+        ],
+        "location": {
+          "latitude": 26.0,
+          "longitude": 51.75
+        },
+        "date": [
+          "1980-01-01/2025-12-31"
+        ],
+        "data_format": "csv"
+      },
+      "stored_in": "dsai3202_databricks.s_60100554.heat_raw_era5_files (source_version=v1, point_id=lat26.00_lon51.75)",
+      "file_name": "data.zip",
+      "bytes": 12533097,
+      "sha256": "c2df9f9e13ac75ec611aef25da023cbb7ccdd41946d4811abcd31ca59f42ca98",
+      "retrieved_at_utc": "2026-11-14T14:45:05",
+      "ingest_run_id": "238429206358541"
+    }
+  ]
+}

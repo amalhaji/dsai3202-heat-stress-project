@@ -2,7 +2,6 @@
 
 | File | What it shows |
 |---|---|
-| `copernicus_queue_paused.png` | Copernicus queue paused during the first attempt (context for delays) |
 | `run3_validate_error.png` | the quality-gate error message of run 3 |
 | `job_run_prod_1.png` | first successful run, all 5 tasks green |
 | `job_run_prod_2_rerun.png` | safe rerun: `downloaded_this_run = 0`, same row counts |
