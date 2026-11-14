@@ -1,0 +1,5 @@
+# Databricks Runtime 15.4 LTS already includes pyspark, pandas and matplotlib.
+# Installed on the job cluster (see jobs/heat_pipeline_job.json):
+cdsapi>=0.7.4
+# Local unit tests only (optional):
+pytest>=7

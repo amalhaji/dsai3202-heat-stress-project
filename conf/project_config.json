@@ -1,0 +1,33 @@
+{
+  "storage_account": "amazonlake60100554",
+  "raw_container": "raw",
+  "curated_container": "curated",
+  "project_prefix": "heat_project",
+
+  "catalog": "dsai3202_databricks",
+  "schema": "s_60100554",
+  "table_prefix": "heat_",
+
+  "cds_url": "https://cds.climate.copernicus.eu/api",
+  "secret_scope": "heat-project",
+  "secret_key": "cds-api-key",
+  "dataset": "reanalysis-era5-single-levels-timeseries",
+  "date_start": "1980-01-01",
+  "date_end": "2025-12-31",
+  "variables": [
+    "2m_temperature",
+    "2m_dewpoint_temperature",
+    "10m_u_component_of_wind",
+    "10m_v_component_of_wind",
+    "surface_pressure",
+    "surface_solar_radiation_downwards",
+    "total_cloud_cover"
+  ],
+
+  "grid": {"lat_min": 24.5, "lat_max": 26.0, "lon_min": 50.75, "lon_max": 51.75, "step": 0.25},
+  "target_point": {"latitude": 25.25, "longitude": 51.5},
+
+  "quality": {"max_reject_rate": 0.01, "min_point_completeness": 0.99, "expected_points": 35},
+  "split": {"train_end_year": 2017, "val_end_year": 2021},
+  "alert_threshold_c": 32.1
+}

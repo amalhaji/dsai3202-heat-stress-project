@@ -1,0 +1,30 @@
+# Reproducible specification of feature set v1 (built by notebooks/05_features.py)
+feature_set: features_v1
+table: dsai3202_databricks.s_60100554.heat_features_v1
+grain: one row per Qatar local day D (Doha grid point lat 25.25, lon 51.50)
+source_table: dsai3202_databricks.s_60100554.heat_gold_daily_weather
+availability_rule: every feature uses data from day D or D-1 only (known at the end of day D, Qatar time)
+label: {name: target_wbgt_max_next_day, definition: "max hourly simplified WBGT in Doha on day D+1 (degC)", derived: "target_alert_next_day = 1 if label > 32.1"}
+baseline: {name: baseline_persistence, definition: "tomorrow = today (doha_wbgt_max)"}
+split: {method: chronological by date D, train: "<= 2017", validation: "2018-2021", test: "2022-2025"}
+features:
+  - {name: doha_wbgt_max,        type: double, unit: degC, source: "gold.wbgt_max_c (Doha)",   definition: "today's max hourly WBGT",                 why: "heat persists; also the baseline"}
+  - {name: doha_wbgt_change_1d,  type: double, unit: degC, source: "gold.wbgt_max_c (Doha)",   definition: "today's max minus yesterday's max",       why: "is heat rising or falling"}
+  - {name: doha_t_max,           type: double, unit: degC, source: "gold.t_max_c (Doha)",      definition: "today's max air temperature",             why: "dry-heat part of WBGT"}
+  - {name: doha_td_mean,         type: double, unit: degC, source: "gold.td_mean_c (Doha)",    definition: "today's mean dewpoint",                   why: "humidity drives WBGT in Doha"}
+  - {name: doha_u_mean,          type: double, unit: m/s,  source: "gold.u_mean_ms (Doha)",    definition: "mean east-west wind",                     why: "sea breeze vs land wind"}
+  - {name: doha_v_mean,          type: double, unit: m/s,  source: "gold.v_mean_ms (Doha)",    definition: "mean north-south wind",                   why: "northerly shamal brings drier air"}
+  - {name: doha_sp_change_1d,    type: double, unit: hPa,  source: "gold.sp_mean_hpa (Doha)",  definition: "today's mean pressure minus yesterday's", why: "pressure change signals weather change"}
+  - {name: region_wbgt_max_mean, type: double, unit: degC, source: "gold.wbgt_max_c (35 pts)", definition: "mean of today's max WBGT over all points", why: "heat of the wider air mass"}
+  - {name: region_td_mean,       type: double, unit: degC, source: "gold.td_mean_c (35 pts)",  definition: "mean dewpoint over all points",           why: "humid air that can move over Doha"}
+  - {name: region_u_mean,        type: double, unit: m/s,  source: "gold.u_mean_ms (35 pts)",  definition: "mean east-west wind over all points",     why: "large-scale wind pattern"}
+  - {name: region_v_mean,        type: double, unit: m/s,  source: "gold.v_mean_ms (35 pts)",  definition: "mean north-south wind over all points",   why: "large-scale wind pattern"}
+  - {name: doy_sin,              type: double, unit: none, source: date_qa,                    definition: "sin(2*pi*dayofyear/365.25)",              why: "season without a jump at New Year"}
+  - {name: doy_cos,              type: double, unit: none, source: date_qa,                    definition: "cos(2*pi*dayofyear/365.25)",              why: "season without a jump at New Year"}
+leakage_risks:
+  - "Any value from day D+1 used as a feature (prevented: label joined from D+1, features from D / D-1)"
+  - "Random split puts neighbouring days on both sides (prevented: chronological split)"
+  - "Scalers/encoders fitted on all years (rule for Phase 2: fit on train only)"
+  - "Mixing UTC and Qatar days would leak 3 hours of tomorrow (prevented: all daily values use date_qa)"
+  - "ERA5 is produced after the fact; real use needs live inputs (limitation, not leakage)"
+selection: none in v1 - features chosen by physical reasoning
