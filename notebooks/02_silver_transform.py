@@ -71,9 +71,10 @@ raw = (spark.read.option("header", True).schema(string_schema).csv(INPUT_PATH)
 n_input = raw.count()
 
 num_cols = COLS[1:]
-casted = raw.withColumn("valid_time_utc", F.to_timestamp("valid_time"))
+# try_cast / try_to_timestamp: a malformed value becomes NULL (then rejected as cast_failed) instead of crashing
+casted = raw.withColumn("valid_time_utc", F.expr("try_to_timestamp(valid_time)"))
 for c in num_cols:
-    casted = casted.withColumn(f"{c}_d", F.col(c).cast("double"))
+    casted = casted.withColumn(f"{c}_d", F.expr(f"try_cast({c} AS DOUBLE)"))
 
 cast_failed = F.col("valid_time").isNotNull() & F.col("valid_time_utc").isNull()
 for c in num_cols:
