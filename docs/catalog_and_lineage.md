@@ -1,22 +1,37 @@
 # Catalog, schema and lineage
 
 All tables are registered in **Unity Catalog** under `dsai3202_databricks.s_60100554` as external Delta tables in the
-lake (`curated/heat_project/delta/...`). The notebooks set table and column comments; Unity Catalog records lineage for
+lake (`curated/heat_project/delta/...`). Receipts and the manifest are JSON files in `curated/heat_project/raw/`. The notebooks set table and column comments; Unity Catalog records lineage for
 the job runs automatically (Catalog Explorer → table → *Lineage*).
 
 ## Lineage (raw → processed)
 
 ```mermaid
 flowchart LR
-  A["Copernicus CDS API<br/>ERA5 time series (CSV)"] -->|01_ingest| B["raw/heat_project/era5_timeseries/<br/>source_version=v1/&lt;point&gt;/data.zip<br/>+ _receipt.json, _manifest.json"]
-  B -->|02_silver: unzip + flatten| C["curated/heat_project/staging/era5_csv/<br/>source_version=v1/&lt;point&gt;.csv"]
+  A["Copernicus CDS API<br/>ERA5 time series (CSV zips)"] -->|01_ingest| B["heat_raw_era5_files<br/>(original zip bytes + sha256)<br/>+ raw/.../_receipt.json, _manifest.json"]
+  B -->|02_silver: unzip on workers| C["heat_staging_era5<br/>(all text)"]
   C -->|02_silver: cast, check, dedupe, derive| D["heat_silver_weather_hourly"]
   C -->|rejected rows| E["heat_silver_weather_rejects"]
-  D -->|03_validate quality gate, 04_publish_gold| F["heat_gold_daily_weather"]
+  D -->|03_validate gate, 04_publish_gold| F["heat_gold_daily_weather"]
   F -->|05_features: Doha + region, D → D+1| G["heat_features_v1"]
 ```
 
 ## Tables
+
+### `heat_raw_era5_files` — key: (source_version, point_id) — append-only
+| Column | Type | Description |
+|---|---|---|
+| source_version | string | data version (`v1`) |
+| point_id, latitude, longitude | string, double, double | grid point |
+| file_name | string | `data.zip` as delivered by CDS |
+| bytes, sha256 | long, string | size and SHA-256 of the original file |
+| content | binary | the original zip, byte for byte |
+| request_json | string | exact CDS request |
+| retrieved_at_utc, ingest_run_id | string | when and by which run |
+
+### `heat_staging_era5`
+The unzipped CDS CSV columns as text (`valid_time, latitude, longitude, t2m, d2m, u10, v10, sp, ssrd, tcc`) + `source_file`.
+Rebuilt from the raw table on every run.
 
 ### `heat_silver_weather_hourly` — key: (latitude, longitude, valid_time_utc)
 | Column | Type | Description / unit | From raw |
