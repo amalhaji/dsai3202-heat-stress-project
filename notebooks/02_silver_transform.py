@@ -57,19 +57,37 @@ def flatten_zip_bytes(raw, lat, lon):
 string_schema = T.StructType([T.StructField(c, T.StringType()) for c in COLS])
 uncompressed_bytes = None
 if RUN_MODE == "prod":
-    # Stage: unzip every stored raw file into one text table (the raw table itself is never changed)
+    # Stage: unzip every stored raw file into one text table. The unzipping runs on the WORKERS in parallel
+    # (one point per partition), not on the driver, so driver memory is not exhausted.
     raw_files = spark.table(TBL["raw_files"]).filter(F.col("source_version") == SOURCE_VERSION)
-    pids = sorted(r["point_id"] for r in raw_files.select("point_id").collect())
-    uncompressed_bytes, first = 0, True
-    for pid in pids:
-        r = raw_files.filter(F.col("point_id") == pid).select("content", "latitude", "longitude").first()
-        pdf, nb = flatten_zip_bytes(bytes(r["content"]), r["latitude"], r["longitude"])
-        uncompressed_bytes += nb
-        sdf = spark.createDataFrame(pdf, string_schema).withColumn("source_file", F.lit(f"{TBL['raw_files']}/{pid}"))
-        (sdf.write.format("delta").mode("overwrite" if first else "append").option("overwriteSchema", "true")
-            .option("path", PATHS["staging"]).saveAsTable(TBL["staging"]))
-        first = False
-        print("staged", pid, len(pdf), "rows", flush=True)
+    RAW_TBL_NAME = TBL["raw_files"]
+    staged_schema = T.StructType(string_schema.fields + [T.StructField("source_file", T.StringType())])
+
+    def unzip_partition(batches):
+        for pdf in batches:
+            for _, r in pdf.iterrows():
+                out, _ = flatten_zip_bytes(bytes(r["content"]), r["latitude"], r["longitude"])
+                out["source_file"] = f"{RAW_TBL_NAME}/{r['point_id']}"
+                for i in range(0, len(out), 50000):
+                    yield out.iloc[i:i + 50000]
+
+    @F.udf("long")
+    def zip_csv_bytes(content):
+        b = bytes(content)
+        if b[:2] != b"PK":
+            return len(b)
+        with zipfile.ZipFile(io.BytesIO(b)) as z:
+            return sum(i.file_size for i in z.infolist() if i.filename.lower().endswith(".csv"))
+
+    spark.conf.set("spark.sql.execution.arrow.maxRecordsPerBatch", "1")      # one zip per batch
+    n_points = raw_files.count()
+    staged = (raw_files.select("point_id", "latitude", "longitude", "content")
+              .repartition(n_points, "point_id").mapInPandas(unzip_partition, staged_schema))
+    (staged.write.format("delta").mode("overwrite").option("overwriteSchema", "true")
+        .option("path", PATHS["staging"]).saveAsTable(TBL["staging"]))
+    spark.conf.unset("spark.sql.execution.arrow.maxRecordsPerBatch")
+    uncompressed_bytes = raw_files.select(zip_csv_bytes("content").alias("n")).agg(F.sum("n")).first()[0]
+    print("staged", n_points, "points; uncompressed CSV bytes:", uncompressed_bytes)
     INPUT_DESC = TBL["staging"]
     raw = spark.table(TBL["staging"])
 else:
