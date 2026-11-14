@@ -35,8 +35,8 @@ def remote_exists(path):
         return False
 
 client = cdsapi.Client(url=CFG["cds_url"], key=dbutils.secrets.get(CFG["secret_scope"], CFG["secret_key"]), quiet=True)
-LOCAL_TMP = "/local_disk0/tmp/heat_ingest"
-os.makedirs(LOCAL_TMP, exist_ok=True)
+import tempfile
+LOCAL_TMP = tempfile.mkdtemp(prefix="heat_ingest_")   # fresh folder per run (shared clusters block reuse)
 
 points = hf.grid_points(CFG["grid"])
 

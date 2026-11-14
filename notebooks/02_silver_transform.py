@@ -50,8 +50,8 @@ def flatten_zip_to_csv(local_zip, lat, lon):
     return merged[COLS]
 
 if RUN_MODE == "prod":
-    LOCAL = "/local_disk0/tmp/heat_stage"
-    os.makedirs(LOCAL, exist_ok=True)
+    import tempfile
+    LOCAL = tempfile.mkdtemp(prefix="heat_stage_")      # fresh folder per run
     manifest = json.loads(dbutils.fs.head(f"{RAW_VERSION_PATH}/_manifest.json", 10_000_000))
     for r in manifest["files"]:
         lz, lc = f"{LOCAL}/{r['point_id']}.zip", f"{LOCAL}/{r['point_id']}.csv"

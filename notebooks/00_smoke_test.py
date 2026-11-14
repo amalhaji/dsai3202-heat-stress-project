@@ -20,8 +20,8 @@ dbutils.widgets.text("source_version", "smoke")   # keeps the test file out of v
 
 import cdsapi, zipfile, io, pandas as pd
 client = cdsapi.Client(url=CFG["cds_url"], key=dbutils.secrets.get(CFG["secret_scope"], CFG["secret_key"]))
-local = "/local_disk0/tmp/smoke.zip"
-os.makedirs(os.path.dirname(local), exist_ok=True)
+import tempfile
+local = os.path.join(tempfile.mkdtemp(prefix="smoke_"), "smoke.zip")
 client.retrieve(CFG["dataset"], {
     "variable": CFG["variables"],
     "location": {"latitude": TARGET_LAT, "longitude": TARGET_LON},
