@@ -35,6 +35,8 @@ TEST_INPUT_PATH = f"{RAW_ROOT}/test_inputs/bad_sample_v1"
 SFX = "_test" if RUN_MODE == "test" else ""      # test runs never touch prod tables
 NS, TP = f"{CFG['catalog']}.{CFG['schema']}", CFG["table_prefix"]
 TBL = {
+    "raw_files": f"{NS}.{TP}raw_era5_files",            # original zip bytes + hash (prod only, append-only)
+    "staging":  f"{NS}.{TP}staging_era5{SFX}",          # unzipped rows, all text
     "silver":   f"{NS}.{TP}silver_weather_hourly{SFX}",
     "rejects":  f"{NS}.{TP}silver_weather_rejects{SFX}",
     "gold":     f"{NS}.{TP}gold_daily_weather{SFX}",

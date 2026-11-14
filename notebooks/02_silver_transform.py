@@ -2,7 +2,7 @@
 # MAGIC %md
 # MAGIC # 02_silver_transform – clean, validate and transform (raw → staging → silver)
 # MAGIC Defined order:
-# MAGIC 1. **Stage** – unzip each raw file to one flat CSV per point.
+# MAGIC 1. **Stage** – unzip each stored raw file into the text table `heat_staging_era5` (raw table is never changed).
 # MAGIC 2. **Read** everything as text, so bad values are caught by us, not silently turned into null.
 # MAGIC 3. **Type cast** → reject `cast_failed`.
 # MAGIC 4. **Required fields** (time, location, temperature, dewpoint) → reject `missing_required`.
@@ -28,14 +28,18 @@ ALIASES = {"2m_temperature": "t2m", "2m_dewpoint_temperature": "d2m", "10m_u_com
            "10m_v_component_of_wind": "v10", "surface_pressure": "sp", "surface_solar_radiation_downwards": "ssrd",
            "total_cloud_cover": "tcc"}
 
-def flatten_zip_to_csv(local_zip, lat, lon):
-    """CDS may return one CSV or several (e.g. one per variable) inside the zip - merge them on time."""
-    raw = open(local_zip, "rb").read()
-    frames = []
+def flatten_zip_bytes(raw, lat, lon):
+    """CDS may return one CSV or several (e.g. one per variable) inside the zip - merge them on time.
+    Returns (pandas DataFrame with COLS as text, uncompressed CSV bytes)."""
+    frames, n_bytes = [], 0
     if raw[:2] == b"PK":
         with zipfile.ZipFile(io.BytesIO(raw)) as z:
-            frames = [pd.read_csv(z.open(n), dtype=str) for n in z.namelist() if n.lower().endswith(".csv")]
+            for info in z.infolist():
+                if info.filename.lower().endswith(".csv"):
+                    n_bytes += info.file_size
+                    frames.append(pd.read_csv(z.open(info), dtype=str))
     else:
+        n_bytes = len(raw)
         frames = [pd.read_csv(io.BytesIO(raw), dtype=str)]
     merged = None
     for df in frames:
@@ -47,27 +51,34 @@ def flatten_zip_to_csv(local_zip, lat, lon):
     missing = [c for c in COLS if c not in merged.columns]
     if missing:
         raise ValueError(f"Unexpected CDS columns, missing {missing}; got {list(merged.columns)}")
-    return merged[COLS]
+    out = merged[COLS].astype(object)
+    return out.where(out.notna(), None), n_bytes
 
+string_schema = T.StructType([T.StructField(c, T.StringType()) for c in COLS])
+uncompressed_bytes = None
 if RUN_MODE == "prod":
-    import tempfile
-    LOCAL = tempfile.mkdtemp(prefix="heat_stage_")      # fresh folder per run
-    manifest = json.loads(dbutils.fs.head(f"{RAW_VERSION_PATH}/_manifest.json", 10_000_000))
-    for r in manifest["files"]:
-        lz, lc = f"{LOCAL}/{r['point_id']}.zip", f"{LOCAL}/{r['point_id']}.csv"
-        dbutils.fs.cp(r["file"], f"file:{lz}")
-        flatten_zip_to_csv(lz, r["latitude"], r["longitude"]).to_csv(lc, index=False)
-        dbutils.fs.cp(f"file:{lc}", f"{STAGING_PATH}/{r['point_id']}.csv")   # staging is derived, safe to replace
-        os.remove(lz); os.remove(lc)
-    INPUT_PATH = STAGING_PATH
+    # Stage: unzip every stored raw file into one text table (the raw table itself is never changed)
+    raw_files = spark.table(TBL["raw_files"]).filter(F.col("source_version") == SOURCE_VERSION)
+    pids = sorted(r["point_id"] for r in raw_files.select("point_id").collect())
+    uncompressed_bytes, first = 0, True
+    for pid in pids:
+        r = raw_files.filter(F.col("point_id") == pid).select("content", "latitude", "longitude").first()
+        pdf, nb = flatten_zip_bytes(bytes(r["content"]), r["latitude"], r["longitude"])
+        uncompressed_bytes += nb
+        sdf = spark.createDataFrame(pdf, string_schema).withColumn("source_file", F.lit(f"{TBL['raw_files']}/{pid}"))
+        (sdf.write.format("delta").mode("overwrite" if first else "append").option("overwriteSchema", "true")
+            .option("path", PATHS["staging"]).saveAsTable(TBL["staging"]))
+        first = False
+        print("staged", pid, len(pdf), "rows", flush=True)
+    INPUT_DESC = TBL["staging"]
+    raw = spark.table(TBL["staging"])
 else:
-    INPUT_PATH = TEST_INPUT_PATH            # separate, deliberately bad test input
+    INPUT_DESC = TEST_INPUT_PATH            # separate, deliberately bad test input
+    raw = (spark.read.option("header", True).schema(string_schema).csv(TEST_INPUT_PATH)
+                .withColumn("source_file", F.col("_metadata.file_path")))
 
 # COMMAND ----------
 
-string_schema = T.StructType([T.StructField(c, T.StringType()) for c in COLS])
-raw = (spark.read.option("header", True).schema(string_schema).csv(INPUT_PATH)
-            .withColumn("source_file", F.col("_metadata.file_path")))
 n_input = raw.count()
 
 num_cols = COLS[1:]
@@ -139,6 +150,6 @@ set_comments("silver", "Hourly ERA5 weather per grid point around Qatar, cleaned
      "tcc": "Total cloud cover, 0-1", "wbgt_c": "Simplified shade WBGT (BoM formula), degC",
      "wind_dir_deg": "Direction the wind blows from, degrees"})
 
-log_run("02_silver", "SUCCESS", {"input_path": INPUT_PATH, "input_rows": n_input, "accepted_rows": n_accepted,
+log_run("02_silver", "SUCCESS", {"input": INPUT_DESC, "uncompressed_csv_bytes": uncompressed_bytes, "input_rows": n_input, "accepted_rows": n_accepted,
         "rejected_rows": n_rejected, "rejected_by_reason": reject_counts, "duplicates_dropped": n_dupes,
         "accounting_balanced": n_input == n_accepted + n_rejected + n_dupes, "silver_delta_version": silver_version})
