@@ -1,7 +1,7 @@
 # Predicting tomorrow's heat stress in Doha – Phase 1: data pipeline, ETL and features
 
 DSAI3202 Fall 2026 · Individual project · Amal Haji – 60100554
-**Submitted commit / release:** tag `v1.0-phase1` – commit ⟨TODO: paste `git rev-parse HEAD`⟩
+**Submitted release:** tag `v1.0-phase1`
 
 ---
 
