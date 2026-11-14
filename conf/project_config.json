@@ -1,6 +1,6 @@
 {
   "storage_account": "amazonlake60100554",
-  "raw_container": "raw",
+  "raw_container": "curated",
   "curated_container": "curated",
   "project_prefix": "heat_project",
 

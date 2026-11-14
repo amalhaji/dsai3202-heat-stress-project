@@ -26,7 +26,7 @@ RUN_ID = dbutils.widgets.get("run_id").strip() or "manual-" + dt.datetime.utcnow
 assert RUN_MODE in ("prod", "test"), "run_mode must be prod or test"
 
 ACC, P = CFG["storage_account"], CFG["project_prefix"]
-RAW_ROOT = f"abfss://{CFG['raw_container']}@{ACC}.dfs.core.windows.net/{P}"
+RAW_ROOT = f"abfss://{CFG['raw_container']}@{ACC}.dfs.core.windows.net/{P}/raw"   # raw zone: separate, never-overwritten folder
 CUR_ROOT = f"abfss://{CFG['curated_container']}@{ACC}.dfs.core.windows.net/{P}"
 RAW_VERSION_PATH = f"{RAW_ROOT}/era5_timeseries/source_version={SOURCE_VERSION}"
 STAGING_PATH = f"{CUR_ROOT}/staging/era5_csv/source_version={SOURCE_VERSION}"
