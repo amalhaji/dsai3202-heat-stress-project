@@ -1,0 +1,10 @@
+# Retained, immutable training data (pattern from Lab 8). The path and tags are filled on the command line
+# from the 08_export_snapshot output, so the version always points at a folder named by its SHA-256.
+$schema: https://azuremlschemas.azureedge.net/latest/data.schema.json
+name: heat-features
+version: 1
+type: uri_folder
+description: Frozen snapshot of heat_features_v1 (Doha next-day WBGT), Phase 1 feature set v1
+path: abfss://curated@amazonlake60100554.dfs.core.windows.net/heat_project/snapshots/CHANGE_ME/features/
+tags:
+  project: dsai3202-heat

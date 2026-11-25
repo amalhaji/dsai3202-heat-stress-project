@@ -1,0 +1,9 @@
+# Endpoint (pattern from Lab 10). The name is set on the command line: --name $EP
+$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineEndpoint.schema.json
+name: ep-heat-change-me
+auth_mode: key
+description: DSAI3202 project - next-day max WBGT in Doha (heat-wbgt)
+tags:
+  course: DSAI3202
+  project: heat-wbgt
+  owner_rg: rg-dsai3202-amal-60100554
