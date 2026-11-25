@@ -1,0 +1,52 @@
+{
+ "data": [
+  {
+   "id": "2022-05-01",
+   "doha_wbgt_max": 30.83100313,
+   "doha_wbgt_change_1d": 0.6956247155,
+   "doha_t_max": 34.4803,
+   "doha_td_mean": 18.64079333,
+   "doha_u_mean": -0.9095961329,
+   "doha_v_mean": 0.7652962984,
+   "doha_sp_change_1d": -3.177125,
+   "region_wbgt_max_mean": 30.74954033,
+   "region_td_mean": 18.54832645,
+   "region_u_mean": -0.7345263727,
+   "region_v_mean": 0.9366690673,
+   "doy_sin": 0.8724040568,
+   "doy_cos": -0.4887853943
+  },
+  {
+   "id": "2022-05-02",
+   "doha_wbgt_max": 30.62393138,
+   "doha_wbgt_change_1d": -0.2070717505,
+   "doha_t_max": 33.6101,
+   "doha_td_mean": 17.40074333,
+   "doha_u_mean": -0.7039597833,
+   "doha_v_mean": -3.201098767,
+   "doha_sp_change_1d": -0.9556916667,
+   "region_wbgt_max_mean": 30.82954348,
+   "region_td_mean": 17.6475691,
+   "region_u_mean": 0.08369483861,
+   "region_v_mean": -3.247355267,
+   "doy_sin": 0.8638670988,
+   "doy_cos": -0.5037197987
+  },
+  {
+   "id": "2022-05-03",
+   "doha_wbgt_max": 29.08906586,
+   "doha_wbgt_change_1d": -1.534865527,
+   "doha_t_max": 33.73718,
+   "doha_td_mean": 13.51242833,
+   "doha_u_mean": 2.589227675,
+   "doha_v_mean": -5.594008154,
+   "doha_sp_change_1d": 2.313580833,
+   "region_wbgt_max_mean": 28.97680803,
+   "region_td_mean": 15.50488013,
+   "region_u_mean": 2.20856943,
+   "region_v_mean": -4.890162327,
+   "doy_sin": 0.8550745086,
+   "doy_cos": -0.5185051444
+  }
+ ]
+}

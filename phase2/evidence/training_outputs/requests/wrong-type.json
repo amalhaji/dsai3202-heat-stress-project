@@ -1,0 +1,20 @@
+{
+ "data": [
+  {
+   "id": "2022-05-01",
+   "doha_wbgt_max": 30.83100313,
+   "doha_wbgt_change_1d": 0.6956247155,
+   "doha_t_max": "very hot",
+   "doha_td_mean": 18.64079333,
+   "doha_u_mean": -0.9095961329,
+   "doha_v_mean": 0.7652962984,
+   "doha_sp_change_1d": -3.177125,
+   "region_wbgt_max_mean": 30.74954033,
+   "region_td_mean": 18.54832645,
+   "region_u_mean": -0.7345263727,
+   "region_v_mean": 0.9366690673,
+   "doy_sin": 0.8724040568,
+   "doy_cos": -0.4887853943
+  }
+ ]
+}

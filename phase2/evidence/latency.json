@@ -1,0 +1,13 @@
+{
+  "measured_at_utc": "2026-11-25T12:51:51",
+  "model": "heat-wbgt:1",
+  "requests": 200,
+  "failures": 0,
+  "rows_per_request": 1,
+  "p50_ms": 29.5,
+  "p95_ms": 43.5,
+  "max_ms": 50.7,
+  "mean_ms": 31.0,
+  "target_p95_ms": 1000,
+  "target_met": true
+}

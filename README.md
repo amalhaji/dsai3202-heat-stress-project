@@ -1,7 +1,7 @@
-# Predicting tomorrow's heat stress in Doha – Phase 1: data pipeline, ETL and features
+# Predicting tomorrow's heat stress in Doha – data pipeline (Phase 1) and model + deployment (Phase 2)
 
 DSAI3202 Fall 2026 · Individual project · Amal Haji – 60100554
-**Submitted release:** tag `v1.0-phase1`
+**Submitted releases:** Phase 1 – tag `v1.0-phase1` · **Phase 2 – tag `v2.0-phase2`**
 
 ---
 
@@ -260,9 +260,205 @@ next-day label.
 
 ---
 
+## Model and evaluation
+
+**Summary.** A gradient-boosted tree model (`HistGradientBoostingRegressor`) predicts tomorrow's maximum WBGT in Doha
+with a test MAE of **0.838 °C**, against **0.958 °C** for the persistence baseline: **12.5 % lower**. The Part 0
+hypothesis (≥ 10 % lower MAE on May–October 2022–2025) is **supported**, with the caveat below.
+
+**Data and features.** Data asset `heat-features:1`, a frozen copy of `heat_features_v1` (Delta version 9, produced by
+Phase 1 run `350098257976649`): 16,781 days, SHA-256 `f89c03ce…a9526495`. The 13 features of `features_v1` are used
+unchanged (definitions: [`features/features_v1_spec.yaml`](features/features_v1_spec.yaml)). All of them are known at the
+end of day D (Qatar time): they use day D and D-1 only, and the label is day D+1. No sampling: every row is used.
+
+**Split (time separation).** The fixed chronological rule from Phase 1, checked again inside `train.py` against the
+immutable snapshot: **train** 1980–2017 (13,863 days, all months) · **validation** 2018–2021 · **test** 2022–2025.
+Validation and test use only **May–October** days (736 each), the season when the 32.1 °C stop-work decision matters.
+
+**Baseline and candidates.** Baseline: persistence, "tomorrow = today" (`baseline_persistence`). Candidates, all
+pre-declared in [`phase2/project/train.py`](phase2/project/train.py) and fitted on **train only**:
+- `Ridge` (α = 1) with a median imputer and `StandardScaler`: a simple linear check.
+- `HistGradientBoostingRegressor`, 8 settings (learning rate 0.03/0.1 × leaves 15/31 × iterations 200/500), seed 42.
+
+Why boosting: next-day heat depends on **interactions** (e.g. a wind shift only matters when the air is humid), which
+trees capture without manual feature crosses; it needs no scaling, trains in seconds on 14k rows, and predicts in
+microseconds.
+
+**Leakage prevention.** Learned preprocessing (median imputer, scaler) sits **inside the scikit-learn Pipeline**, so it
+is fitted on training data only and is saved and deployed together with the model. Choices were made on validation only;
+the test season was scored **once**, after the choice.
+
+**Model choice on validation** (MAE °C, May–October 2018–2021; full table:
+[`validation_choice.csv`](phase2/evidence/training_outputs/validation_choice.csv))
+
+| Candidate | Validation MAE |
+|---|---|
+| persistence baseline | 0.912 |
+| ridge α=1 | 0.878 |
+| **hgb lr 0.03, 15 leaves, 500 iterations (chosen)** | **0.813** |
+| other 7 boosting settings | 0.816 – 0.858 |
+
+**Test result** (May–October 2022–2025, 736 days, untouched until now)
+
+| Metric | Baseline | Model |
+|---|---|---|
+| MAE (°C) | 0.958 | **0.838** |
+| RMSE (°C) | 1.241 | **1.074** |
+| Bias (°C) | −0.001 | −0.146 |
+| Alert (>32.1 °C) precision / recall | 0.961 / 0.959 | **0.972** / 0.959 |
+| False alarms / missed alert days | 24 / 25 | **17** / 25 |
+
+Improvement = 1 − 0.838/0.958 = **12.5 %**. 95 % confidence interval **8.5 % – 16.2 %** (bootstrap resampling whole
+weeks, 2,000 resamples, because neighbouring days are correlated).
+
+**Error slice: change days.** A "change day" is a day when the next-day maximum differs from today's by ≥ 1.5 °C
+([`slice_change_days.csv`](phase2/evidence/training_outputs/slice_change_days.csv)):
+
+| Slice | Days | Baseline MAE | Model MAE | Improvement |
+|---|---|---|---|---|
+| calm days | 569 | 0.609 | 0.618 | −1.5 % |
+| **change days** | 167 | 2.150 | **1.590** | **+26.1 %** |
+
+All of the gain comes from change days, the days when a manager most needs a forecast. On calm days the model is as
+good as persistence, which is expected.
+
+**By month** ([`slice_by_month.csv`](phase2/evidence/training_outputs/slice_by_month.csv)): the gains are largest in
+May (17 %), June (17 %) and September (18 %), the transition months where alerts switch on and off. They are smallest in
+July (4 %) and August (7 %), when almost every day is hot and persistence is already good.
+
+**Representative errors** ([`largest_errors.csv`](phase2/evidence/training_outputs/largest_errors.csv)): the 10 largest
+errors are 2.9–3.5 °C, e.g. 2022-09-19 (actual 37.5, predicted 34.0) and 2025-09-06 (actual 34.7, predicted 38.1). They
+are sudden humidity jumps or drops that today's weather does not show; the baseline misses the same days.
+
+**Hypothesis outcome.** **Supported.** The model's MAE is 12.5 % lower than persistence (needed ≥ 10 %), and the
+improvement is clearly above zero (the CI starts at 8.5 %). Caveat: the lower end of the CI is below 10 %, so the data
+cannot rule out a true improvement slightly under the 10 % target. The result is consistent, not overwhelming.
+
+**Limitations.**
+- The inputs are **ERA5 reanalysis**, which is published days later. In real use the same features must come from live
+  observations or a forecast, which would be noisier.
+- WBGT is the **simplified shade formula**, not the official sun-exposed measurement.
+- The model was trained on **1980–2017**. The test years are warmer (Phase 1 EDA), and the small negative bias
+  (−0.15 °C) suggests slight under-prediction.
+- The alert flag adds little beyond MAE (missed alert days are unchanged at 25), because in July–August almost every
+  day is an alert day.
+
+---
+
+## Traceability and deployment
+
+**What is registered** (Azure ML workspace `mlwdsai320260100554`)
+
+| Item | Name / version | Points to |
+|---|---|---|
+| Data asset | `heat-features:1` | `curated/heat_project/snapshots/f89c03ce8b23e45d8986e84b30362186647f5184ff05e0651a89919fa9526495/features/`, a folder named by its SHA-256 and written once with `overwrite=False` ([`08_export_snapshot.py`](notebooks/08_export_snapshot.py)) |
+| Training job | `witty_kale_dn74n4w68h`, experiment `heat-wbgt-phase2` | [`phase2/project/job.yml`](phase2/project/job.yml), serverless, `user_identity` |
+| Training environment | `sentiment-env:1` (reused from Lab 8) | Python 3.11.9, scikit-learn 1.5.2, pandas 2.2.3, numpy 1.26.4, MLflow 2.17.2 |
+| **Model** | **`heat-wbgt:1`** (MLflow, fitted Pipeline = imputer + model) | job output `model/` of `witty_kale_dn74n4w68h` |
+| Serving environment | `sentiment-inference-env:1` (reused from Lab 10) | same package versions + `azureml-inference-server-http` |
+| Endpoint | **`ep-heat-60100554`**, deployment `blue`, 100 % traffic | [`endpoint.yml`](phase2/deploy/endpoint.yml), [`deployment.yml`](phase2/deploy/deployment.yml), `Standard_DS2_v2` × 1 |
+
+Model tags on `heat-wbgt:1`: `training_run=witty_kale_dn74n4w68h`, `git_commit=10a8daaaeab80234dd0ebb32a36ccbfb85b5790c`,
+`data_asset=heat-features:1`, `data_sha256`, `features_delta_version=9`, `phase1_run=350098257976649`,
+`chosen=hgb_lr0.03_l15_i500`, `seed=42`, validation and test MAE, `test_improvement`, `hypothesis_supported=True`,
+input contract and limitations ([`register_model.py`](phase2/scripts/register_model.py)). The deployment names the exact
+version `azureml:heat-wbgt:1`, never `latest`. The run also logs every parameter, metric and package version in MLflow.
+
+**Input contract** (implemented in [`phase2/project/score.py`](phase2/project/score.py))
+- **Request:** `POST https://ep-heat-60100554.qatarcentral.inference.ml.azure.com/score`, header
+  `Authorization: Bearer <key>`, body `{"data": [ {row}, … ]}`, 1–1,000 rows.
+- **Each row** holds the **13 computed features** for Qatar day D, all numbers, named exactly as in `features_v1`:
+  `doha_wbgt_max, doha_wbgt_change_1d, doha_t_max, doha_td_mean, doha_u_mean, doha_v_mean, doha_sp_change_1d,
+  region_wbgt_max_mean, region_td_mean, region_u_mean, region_v_mean, doy_sin, doy_cos`, plus an optional `id`
+  (e.g. the date), which is returned unchanged in `ids`.
+- **Response:** `{"predictions": [35.1234, …], "alert": [true, …], "threshold_c": 32.1, "model": "heat-wbgt:1", "n": …, "ids": […]}`.
+  Predictions are next-day max WBGT in °C, rounded to 4 decimals.
+- **Errors:** an empty body, invalid JSON, a missing `data` key, more than 1,000 rows, a missing field, or a non-numeric /
+  infinite value each return **HTTP 200 with `{"error": "...", "expected_columns": [...]}`**, never a crash. Only a
+  failure inside the model returns HTTP 500.
+- **The interface takes computed features, not raw weather.** To build a row for day D, run the Phase 1 pipeline (it
+  produces day D in `heat_features_v1`) and send that row without the label columns. Or compute the features from the
+  gold table with the formulas in `features_v1_spec.yaml`: Doha point = (25.25, 51.50); `region_*` = mean over the 35
+  points; `*_change_1d` = day D minus day D-1; `doy_sin/cos = sin/cos(2π·dayofyear/365.25)`. Ready-made example:
+  [`sample-request.json`](phase2/evidence/training_outputs/requests/sample-request.json).
+
+**Repeatable setup** (from the VM with `az` and the `ml` extension; reproduces everything above)
+```bash
+# 0. once: freeze the data in Databricks -> run notebooks/08_export_snapshot (prints SNAP_SHA and SNAP_PATH)
+az configure --defaults group=rg-dsai3202-amal-60100554 workspace=mlwdsai320260100554
+cd phase2/project
+az ml data create -f data-asset.yml --set path=$SNAP_PATH tags.snapshot_sha256=$SNAP_SHA
+JOB=$(az ml job create -f job.yml --set inputs.expected_sha256=$SNAP_SHA inputs.git_commit=<commit> --query name -o tsv)
+cd .. && python3 scripts/register_model.py $JOB runs/$JOB 1      # after downloading the run's artifacts with MLflow
+cd deploy
+az ml online-endpoint create -f endpoint.yml --name ep-heat-60100554
+az ml online-deployment create -f deployment.yml --endpoint-name ep-heat-60100554 --all-traffic
+```
+Run artifacts are downloaded with `mlflow.artifacts.download_artifacts(run_id=$JOB)`, because `az ml job download`
+failed with a CLI bug (`BatchGetResolvedUrisDto`).
+
+**Access for the grader.** Endpoint URL above. The key is given on request (`az ml online-endpoint get-credentials -n
+ep-heat-60100554`) and is never stored in the repo. `score.py` accepts any valid request within the contract.
+
+---
+
+## Verification and resource use
+
+All checks were run from the VM on 2026-11-25 against `heat-wbgt:1`. Inputs, outputs and the model version are saved in
+[`phase2/evidence/`](phase2/evidence/).
+
+**Functional checks** ([`check_functional.py`](phase2/scripts/check_functional.py) → [`functional.json`](phase2/evidence/functional.json)): **passed**
+
+| Input | HTTP | Answer |
+|---|---|---|
+| `sample-request.json` (3 valid rows) | 200 | 3 predictions + alert flags, `model: heat-wbgt:1` |
+| `empty.json` | 200 | `error: empty body` |
+| `missing-field.json` (no `doy_cos`) | 200 | `error: missing field(s): doy_cos` |
+| `wrong-type.json` (`doha_t_max: "very hot"`) | 200 | `error: wrong type, expected a number` |
+| `too-long.json` (1,001 rows) | 200 | `error: too many rows: 1001 (max 1000)` |
+
+**Offline vs deployed consistency** ([`check_same_input.py`](phase2/scripts/check_same_input.py) → [`same_input.json`](phase2/evidence/same_input.json)): **passed**.
+The registered model `heat-wbgt:1` was downloaded to the VM and scored on the same 200 fixed test days
+(`fixed-inputs.json`, spread evenly over May–October 2022–2025). The endpoint scored the identical request, and rows
+were matched by `id` (the date): **200 / 200 matched, largest |difference| = 0.00005, alert flags agree 200 / 200.**
+Tolerance 0.00005: `score.py` rounds to 4 decimals, so rounding alone can move a value by at most half of 0.0001; any
+larger gap would mean a different model or different preprocessing.
+
+**Performance** ([`check_latency.py`](phase2/scripts/check_latency.py) → [`latency.json`](phase2/evidence/latency.json)): **target met**.
+Target: client-observed **p95 ≤ 1,000 ms** per one-day request. 200 sequential one-row requests from the VM (network +
+gateway + container + model, after 5 warm-up calls): **p50 29.5 ms · p95 43.5 ms · max 50.7 ms · 0 failures.**
+
+**Cost/performance choice.** One `Standard_DS2_v2` instance (2 vCPU, the smallest size used in Lab 10) instead of the
+recommended DS3_v2. The model is a small tree ensemble on 13 numbers, and p95 is 43.5 ms, 23× under the target, so a
+larger or second instance would double the cost with no visible benefit for one request per site per day. Cost ≈
+$0.137/h ≈ **$3.3 per day** while deployed. Training used serverless compute (billed only for the few minutes the job
+ran) and reused the Lab 8/10 environments, so no image had to be built.
+
+**Cleanup and redeployment.** Continuous uptime is not required, so the endpoint is deleted between the D2L assessment
+window and the presentation, and recreated for each:
+```bash
+az ml online-endpoint delete -n ep-heat-60100554 --yes          # stops all endpoint billing
+# redeploy (≈ 10 min); the model, data asset and environments stay registered
+az ml online-endpoint create -f phase2/deploy/endpoint.yml --name ep-heat-60100554
+az ml online-deployment create -f phase2/deploy/deployment.yml --endpoint-name ep-heat-60100554 --all-traffic
+```
+Also stop the VM and the Databricks cluster when not in use. The data asset, snapshot, model and run history are kept
+(storage only, a few MB).
+
+**Contributions.** Individual project: all work by Amal Haji (60100554).
+
+**Reused code (Phase 2).** `score.py` is adapted from my Lab 10 `score.py` (same five input checks and error format;
+changed to 13 heat features, a regression output in °C and an alert flag). `job.yml`, `data-asset.yml` and the
+SHA-named snapshot follow Lab 8. `endpoint.yml` and `deployment.yml` follow Lab 10 `blue.yml`. The functional,
+same-input and latency checks follow the Lab 10 method. The training and serving environments are reused unchanged from
+Labs 8 and 10.
+
+---
+
 ## AI use
 
 | Tool | Request | Response | My changes |
 |---|---|---|---|
 | Claude (Anthropic) | Suggest Qatar-related topics and help with the Part 0 hypothesis. | Topic ideas and drafts of the Part 0 document. | Reworded and simplified it (see Part 0). |
 | Claude (Anthropic) | Do Phase 1 from the brief and guide me step by step through Azure and the code; fix the errors I hit while running it. | The repository code (notebooks, formulas, tests, test input, job definition, config, feature spec, catalog doc), fixes for the permission/memory errors, and this README text including the EDA write-up from my outputs. | I chose the final topic (heat stress) after rejecting harder options, and did all the setup and running myself: created the Copernicus account and accepted the licence, stored the API key as a Databricks secret, created the GitHub repo and pushed every change, linked GitHub to Databricks and allowed the app on the repo, uploaded the test file, created the job and ran it. I found each error while running (missing licence, lake permissions, malformed test values, temp-folder permission, driver out of memory), reported them and applied and tested the fixes. I ran the EDA, collected all evidence, and checked the README numbers against my run log. |
+| Claude (Anthropic) | Phase 2: write the training job, scoring script, deployment files and checks following my Lab 8–10 files, guide me step by step, and draft this README section and the presentation from my results. | `train.py`, `score.py` (adapted from my Lab 10 version), job/data/endpoint/deployment YAML, the three check scripts, registration script, the Phase 2 README text and the slides. | I ran every step myself: froze the snapshot in Databricks, fixed my VM access (SSH rule and key), created the data asset, ran the training job, registered and deployed the model, ran the three checks, copied the evidence, and checked every number in this README against my outputs. |

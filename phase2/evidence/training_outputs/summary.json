@@ -1,0 +1,63 @@
+{
+  "chosen_model": "hgb_lr0.03_l15_i500",
+  "chosen_params": {
+    "family": "hist_gradient_boosting",
+    "learning_rate": 0.03,
+    "max_leaf_nodes": 15,
+    "max_iter": 500
+  },
+  "val_mae_chosen": 0.8126281804139471,
+  "val_mae_baseline": 0.9117381440896741,
+  "test_model": {
+    "mae": 0.8381498558914323,
+    "rmse": 1.074474344948613,
+    "bias": -0.14561145252637758,
+    "n": 736
+  },
+  "test_baseline": {
+    "mae": 0.9582889672282608,
+    "rmse": 1.2410134285479082,
+    "bias": -0.0005770369293478275,
+    "n": 736
+  },
+  "test_improvement": 0.12536835489645348,
+  "test_improvement_ci95_week_bootstrap": [
+    0.08486084969725768,
+    0.16217556897134247
+  ],
+  "alert_model": {
+    "precision": 0.9720853858784894,
+    "recall": 0.9594813614262561,
+    "f1": 0.9657422512234911,
+    "missed_alert_days": 25,
+    "false_alarms": 17
+  },
+  "alert_baseline": {
+    "precision": 0.961038961038961,
+    "recall": 0.9594813614262561,
+    "f1": 0.9602595296025953,
+    "missed_alert_days": 25,
+    "false_alarms": 24
+  },
+  "hypothesis_threshold": 0.1,
+  "hypothesis_supported": true,
+  "data_sha256": "f89c03ce8b23e45d8986e84b30362186647f5184ff05e0651a89919fa9526495",
+  "snapshot_meta": {
+    "source_table": "dsai3202_databricks.s_60100554.heat_features_v1",
+    "features_delta_version": 9,
+    "feature_set_version": "v1",
+    "source_version": "v1",
+    "producing_run_id": "350098257976649",
+    "rows": 16781,
+    "bytes": 3764092,
+    "sha256": "f89c03ce8b23e45d8986e84b30362186647f5184ff05e0651a89919fa9526495",
+    "exported_at_utc": "2026-11-25T12:16:40"
+  },
+  "seed": 42,
+  "git_commit": "10a8daaaeab80234dd0ebb32a36ccbfb85b5790c",
+  "rows": {
+    "train": 13863,
+    "val_hot": 736,
+    "test_hot": 736
+  }
+}
